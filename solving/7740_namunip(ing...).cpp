@@ -27,7 +27,6 @@ void insert(int n) {
 	while (1) {
 		if (test[tt].age > test[n].age) {
 			if (test[tt].rear == NULL) {
-			printf("!!\n");
 				test[n].next = &test[tt];
 				test[tt].rear = &test[n];
 				spos = n;
@@ -53,7 +52,6 @@ void insert(int n) {
 				test[n].maxi = test[n].power;
 				break;
 			}
-			printf("~~\n");
 			tt = test[tt].next->pos;
 		}
 		else {
@@ -82,7 +80,6 @@ void insert(int n) {
 				}
 				else {
 					if (test[tt].back == NULL) {
-					printf("@@%d %d\n", n, tt);
 						test[n].above = &test[tt];
 						test[tt].back = &test[n];
 						break;
@@ -101,19 +98,29 @@ void check(int n) {
 		arr[apos++] = test[n].back->pos;
 	}
 	else {
-		int pos;
-		if (test[n].next != NULL) {
-			pos = test[n].next->pos;
+		int pos = n;
+		while (1) {
+			if (test[pos].above == NULL) {
+				break;
+			}
+			else {
+
+				pos = test[pos].above->pos;
+			}
+		}
+		if (test[pos].next != NULL) {
+			dq.clear();
+			dq.push_back(test[pos]);
+			pos = test[pos].next->pos;
+
 		}
 		else {
 			arr[apos++] = -1;
 			return;
 		}
-		dq.clear();
-		dq.push_back(test[n]);
 		while (1){
+			
 			Node cmp1 = dq.back();
-		printf("%lld %lld\n",cmp1.maxi, test[pos].mini);
 			if (cmp1.maxi <= test[pos].mini) {
 				dq.pop_back();
 				if (dq.empty()) {
